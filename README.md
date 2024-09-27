@@ -17,9 +17,9 @@ Install dependencies
 poetry install
 ```
 
-Run the project
+Run the tests
 ```bash
-poetry run python rag4p/app_step1_chunking_strategy.py
+poetry run pytest
 ```
 
 ## No poetry
