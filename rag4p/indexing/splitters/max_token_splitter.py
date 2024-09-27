@@ -1,0 +1,57 @@
+from typing import List
+
+import tiktoken
+from tokenizers import Tokenizer
+
+from rag4p.integrations.ollama.ollama_tokenizer import tokenizer_for_model
+from rag4p.rag.model.chunk import Chunk
+from rag4p.indexing.input_document import InputDocument
+from rag4p.indexing.splitter import Splitter
+from rag4p.integrations.openai import DEFAULT_EMBEDDING_MODEL, PROVIDER as OPENAI_PROVIDER
+from rag4p.integrations.ollama import PROVIDER as OLLAMA_PROVIDER
+
+
+class MaxTokenSplitter(Splitter):
+    """
+    Splits an InputDocument into Chunks of a maximum number of tokens. The tokens are obtained by
+    encoding the text of the document using the default model from openai encoding. The chunks of tokens are
+    decoded back into text.
+    """
+
+    def __init__(self, max_tokens: int = 200, provider: str = OPENAI_PROVIDER, model: str = DEFAULT_EMBEDDING_MODEL):
+        self.max_tokens = max_tokens
+        self.provider = provider
+        if provider == OPENAI_PROVIDER:
+            self.encoding = tiktoken.encoding_for_model(model)
+        elif provider == OLLAMA_PROVIDER:
+            tokenize_model = tokenizer_for_model(model)
+            self.encoding = Tokenizer.from_pretrained(tokenize_model)
+        else:
+            raise ValueError(f"Unsupported provider: {provider}")
+
+    def split(self, input_document: InputDocument, parent_chunk: Chunk = None) -> List[Chunk]:
+        input_text = input_document.text if parent_chunk is None else parent_chunk.chunk_text
+        if self.provider == OPENAI_PROVIDER:
+            tokens = self.encoding.encode(input_text)
+        elif self.provider == OLLAMA_PROVIDER:
+            tokens = self.encoding.encode(input_text).ids
+        else:
+            raise ValueError(f"Unsupported provider: {self.provider}")
+
+        chunks = []
+        num_chunks = len(tokens) // self.max_tokens + (len(tokens) % self.max_tokens != 0)
+
+        while tokens:
+            chunk_size = min(len(tokens), self.max_tokens)
+            chunk_tokens = tokens[:chunk_size]
+            tokens = tokens[chunk_size:]
+            chunk_text = self.encoding.decode(chunk_tokens)
+            chunk_id = str(len(chunks)) if parent_chunk is None else f"{parent_chunk.chunk_id}_{len(chunks)}"
+            chunk = Chunk(input_document.document_id, chunk_id, num_chunks, chunk_text, input_document.properties)
+            chunks.append(chunk)
+
+        return chunks
+
+    @staticmethod
+    def name() -> str:
+        return "MaxTokenSplitter"
