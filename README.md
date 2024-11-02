@@ -23,11 +23,6 @@ Run the tests
 poetry run pytest
 ```
 
-Run the project
-```bash
-poetry run python app_step0_environment.py
-```
-
 ## No poetry
 
 Setup your venv
@@ -51,7 +46,7 @@ Run the test, you should find 19 running test with status OK
 python -u -m unittest discover
 ```
 
-## Loading API keys
+## STOP HERE FOR PREPARATION - Loading API keys
 We try to limit accessing Large Language Models and vector stores to a minimum. You do not need an LLM or vector store to learn about all the elements of the Retrieval Augmented Generation framework, except for the generation part. In the workshop we use the LLM of Open AI, which is not publicly available. We will provide you with a key to access it, if you don't have your own key.
 
 Please use this key for the workshop only, and limit the amount of interaction, or we get blocked for exceeding our limits. The API key is obtained through a remote file, which is encrypted. Of course you can also use your own key if you have it.
@@ -69,6 +64,11 @@ If you do not have your own key, you can load ours. The key is stored in a remot
 SECRET_KEY=...
 ```
 This secret key is used to decrypt the remote file containing the API keys. We will provide the value for this key during the workshop.
+
+Run the project
+```bash
+poetry run python app_step0_environment.py
+```
 
 ## Using Ollama (Optional)
 There is a simple way to run a Language Model on your local machine. Depending on your machine and the chosen model, it runs fast. I am not going in to much details on how to install it, but you can find the installation instructions on the [Ollama Downloads page](https://ollama.com/download/). 
