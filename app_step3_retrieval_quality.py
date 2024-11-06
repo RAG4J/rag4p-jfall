@@ -51,6 +51,7 @@ def quality_for_single_document():
         properties={})
 
     # Initialize the local content store
+    # TODO 1: Change the splitter here
     splitter = SectionSplitter()
     embedder = OpenAIEmbedder(api_key=key_loader.get_openai_api_key())
     store = InternalContentStore(embedder=embedder)

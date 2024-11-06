@@ -4,9 +4,9 @@ content store and the construction of the context for an LLM to answer the quest
 using retrieval strategies. We use Weaviate to experiment with different retrieval
 strategies. Below is a summary of the TODOs:
 
-TODO 1-4: Experiment with different retrieval strategies
-TODO 5: Use different splitting methods through Weaviate collections
-TODO 6: Find the best strategy to answer a specific question
+TODO 1: Experiment with different retrieval strategies
+TODO 2: Use different splitting methods through Weaviate collections
+TODO 3: Find the best strategy to answer a specific question
 
 Use the blocks between BEGIN SOLUTION and END SOLUTION to complete the TODOs.
 """
@@ -33,29 +33,34 @@ def main():
         "JfallOpenAiMaxTokenSentence"  # Used a SplitterChain with MaxTokenSplitter and SentenceSplitter
     ]
     question = "What is the workshop about?"
-
     retriever = create_weaviate_retriever(weaviate_collections[0])
+
+    # TODO 1:Check the TODOs inside the retrieve_context method
     context = retrieve_context(retriever=retriever, question=question)
     logger.info(f"Context: {context}")
 
     retriever.weaviate_access.close()
 
-    # TODO: Go through the TODOs, check if the question is answered correctly
-    # TODO 1: Assign  the TopN retrieval strategy
-    # TODO 2: Replace the TopN strategy with a Window strategy
-    # TODO 3: Replace the strategy with a Document strategy
-    # TODO 4: Replace the strategy with a Hierarch strategy
-    # TODO 5: Try different collections from Weaviate
-    #  THe collection "JfallOpenAiMaxTokenSentence" works well with the HierarchicalRetrievalStrategy
-    # TODO 6: Select the right strategy to get an answer to the following question:
-    #  "Who are speaking about RAG?"
-    answer = retrieve_answer(context=context, question=question)
-    logger.info(f"Answer: {answer}")
+    # TODO 2: Try different collections from Weaviate on line 36. These collections use different splitters:
+    #  - JfallOpenAiSentence uses the SentenceSplitter
+    #  - JfallOpenAiMaxToken uses the MaxTokenSplitter
+    #  - JfallOpenAiSemantic uses the SemanticSplitter
+    #  - JfallOpenAiMaxTokenSentence uses a SplitterChain with MaxTokenSplitter and SentenceSplitter.
+    #    This works well with the HierarchicalRetrievalStrategy
+
+    # TODO 3: Remove the comment below and select the right strategy to get an answer to the
+    #  following question:  "Who are speaking about RAG?"
+    # answer = retrieve_answer(context=context, question=question)
+    # logger.info(f"Answer: {answer}")
 
 
 def retrieve_context(retriever, question):
-    # TODO 1-4: Experiment with different retrieval strategies
-    # TODO 1-4: Pay attention to the results in the logs
+    # TODO 1: Experiment with different retrieval strategies and pay attention to the results
+    #  in the logs. Use the following retrieval strategies:
+    #  - TopNRetrievalStrategy
+    #  - WindowRetrievalStrategy
+    #  - DocumentRetrievalStrategy
+    #  - HierarchicalRetrievalStrategy
     strategy = None
     # BEGIN SOLUTION
 
