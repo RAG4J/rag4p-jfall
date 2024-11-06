@@ -84,7 +84,6 @@ def basic_splitting(input_doc: InputDocument) -> list[Chunk]:
     #  splitters: SectionSplitter, SentenceSplitter
     # BEGIN SOLUTION
     splitter = None
-    splitter = SectionSplitter()
     # END SOLUTION
 
     return splitter.split(input_doc)
@@ -98,7 +97,6 @@ def semantic_splitting(input_doc: InputDocument) -> list[Chunk]:
     logger.info('Starting the semantic splitting application...')
 
     # Use a splitter to create chunks from the source document
-    splitter = None
     knowledge_extractor = OpenaiKnowledgeExtractor(
         openai_api_key=key_loader.get_openai_api_key()
     )
@@ -106,7 +104,7 @@ def semantic_splitting(input_doc: InputDocument) -> list[Chunk]:
     # TODO 2: Use the SemanticSplitter to split the source document
     #  into chunks. Change the main method to call this method.
     # BEGIN SOLUTION
-
+    splitter = None
     # END SOLUTION
 
     return splitter.split(input_doc)
