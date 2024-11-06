@@ -11,6 +11,8 @@ way you can see what went wrong.
 import logging
 
 from dotenv import load_dotenv
+
+from rag4p.integrations.ollama.access_ollama import AccessOllama
 from rag4p.integrations.weaviate.access_weaviate import AccessWeaviate
 from rag4p.util.key_loader import KeyLoader
 
@@ -26,6 +28,10 @@ def main():
         )
         client.print_meta()
         client.close()
+
+        access_ollama = AccessOllama()
+        for model in access_ollama.list_models():
+            logger.info(f"Found model: {model}")
 
     except Exception as e:
         logger.error("Problem loading environment, check your .env file")

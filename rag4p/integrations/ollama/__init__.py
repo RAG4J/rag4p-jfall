@@ -7,7 +7,7 @@ EMBEDDING_MODEL_MINILM = "all-minilm"
 EMBEDDING_MODEL_MINILM_TOKENIZER = "sentence-transformers/all-MiniLM-L6-v2"
 
 MODEL_PHI3 = "phi3"
-MODEL_LLAMA3 = "llama3.1"
+MODEL_LLAMA3 = "llama3.2"
 MODEL_GEMMA2 = "gemma2"
 MODEL_MISTRAL = "mistral-nemo"
 
