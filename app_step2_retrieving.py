@@ -33,7 +33,6 @@ def main():
         "JfallOpenAiMaxTokenSentence"  # Used a SplitterChain with MaxTokenSplitter and SentenceSplitter
     ]
     question = "What is the workshop about?"
-    # question = "Who are speaking about RAG?"
 
     retriever = create_weaviate_retriever(weaviate_collections[0])
     context = retrieve_context(retriever=retriever, question=question)
@@ -47,6 +46,7 @@ def main():
     # TODO 3: Replace the strategy with a Document strategy
     # TODO 4: Replace the strategy with a Hierarch strategy
     # TODO 5: Try different collections from Weaviate
+    #  THe collection "JfallOpenAiMaxTokenSentence" works well with the HierarchicalRetrievalStrategy
     # TODO 6: Select the right strategy to get an answer to the following question:
     #  "Who are speaking about RAG?"
     answer = retrieve_answer(context=context, question=question)
@@ -58,10 +58,7 @@ def retrieve_context(retriever, question):
     # TODO 1-4: Pay attention to the results in the logs
     strategy = None
     # BEGIN SOLUTION
-    # strategy = TopNRetrievalStrategy(retriever=retriever)
-    # strategy = WindowRetrievalStrategy(retriever=retriever, window_size=1)
-    strategy = DocumentRetrievalStrategy(retriever=retriever)
-    # strategy = HierarchicalRetrievalStrategy(retriever=retriever, max_levels=1)
+
     # END SOLUTION
     result = strategy.retrieve_max_results(question=question, max_results=2)
 
