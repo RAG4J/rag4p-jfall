@@ -13,7 +13,7 @@ class QuestionGeneratorService:
 
     def generate_question_answer_pairs(self, file_name: str):
         directory = os.getcwd()  # get current working directory
-        file_path = os.path.join(directory, "../data", file_name)
+        file_path = os.path.join(directory, "./data", file_name)
         print(file_path)
         try:
             with open(file_path, 'w', newline='', encoding='utf-8') as file:
