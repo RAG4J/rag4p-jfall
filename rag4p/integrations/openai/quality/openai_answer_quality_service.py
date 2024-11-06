@@ -16,7 +16,7 @@ class OpenAIAnswerQualityService(AnswerQualityService):
 
     def obtain_answer_to_question_quality(self, chat_prompt: ChatPrompt, rag_observer: RAGObserver):
         response = self.openai_client.chat.completions.create(
-            model="gpt-4o",
+            model="gpt-4o-mini",
             response_format={"type": "json_object"},
             messages=[
                 {"role": "system",
@@ -33,7 +33,7 @@ class OpenAIAnswerQualityService(AnswerQualityService):
 
     def obtain_answer_from_context_quality(self, chat_prompt: ChatPrompt, rag_observer: RAGObserver):
         response = self.openai_client.chat.completions.create(
-            model="gpt-4o",
+            model="gpt-4o-mini",
             messages=[
                 {"role": "system",
                  "content": chat_prompt.create_system_message(params={})},
